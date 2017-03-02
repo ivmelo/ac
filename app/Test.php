@@ -19,4 +19,8 @@ class Test extends Model
     {
         return $this->belongsToMany('App\User');
     }
+
+    public function registerUser($user) {
+        $this->users()->save($user);
+    }
 }

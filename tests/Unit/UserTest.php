@@ -10,6 +10,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * A basic test example.
      *
@@ -21,16 +23,30 @@ class UserTest extends TestCase
     }
 
     public function testUserCanRegisterInACertificationTest() {
-        // cria usuário usando o faker
-        $user = factory(User::class)->make();
+        // Cria usuário usando o faker.
+        $user = factory(User::class)->create();
 
-        // cria uma prova de certificação
-        $test = factory(Test::class)->make();
+        // Cria uma prova de certificação.
+        $test = factory(Test::class)->create();
 
-        $test->register($user);
+        // Registra usuário em prova de certificação.
+        $test->registerUser($user);
 
-        assetEqual($test->users->first()->email, $user->email);
+        // Verifica se o usuário foi registrado.
+        $this->assertEquals($test->users->first()->email, $user->email);
+    }
 
+    public function testUserCanNotRegisterInMoreThanFourTestsAtOnce() {
+        // Cria usuário usando o faker.
+        $user = factory(User::class)->create();
 
+        // Cria uma prova de certificação.
+        $tests = factory(Test::class)->create();
+
+        // Registra usuário em prova de certificação.
+        $test->registerUser($user);
+
+        // Verifica se o usuário foi registrado.
+        $this->assertEquals($test->users->first()->email, $user->email);
     }
 }
