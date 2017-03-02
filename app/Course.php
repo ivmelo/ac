@@ -25,7 +25,6 @@ class Course extends Model
         return $this->hasMany('App\Test');
     }
 
-
     public function users() {
         return $this->belongsToMany('App\User')->withPivot('status')->withTimestamps();
     }

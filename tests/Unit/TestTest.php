@@ -7,6 +7,7 @@ use App\User;
 use App\Course;
 use Tests\TestCase;
 use App\Exceptions\TooManyTestsException;
+use App\Exceptions\ReachedLimitCourseHoursException;
 use App\Exceptions\CantRegisterForTestInAFailedCourse;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -117,7 +118,7 @@ class TestTest extends TestCase
         $course->tests()->save($test);
 
         // Erro ao registrar após atingir o limite de 1080 horas.
-        $this->expectException(CantRegisterForTestInAFailedCourse::class);
+        $this->expectException(ReachedLimitCourseHoursException::class);
         $test->registerUser($user);
     }
 }
