@@ -25,3 +25,11 @@ $factory->define(App\Test::class, function (Faker\Generator $faker) {
         'course_id' => $faker->randomDigit,
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Course::class, function (Faker\Generator $faker) {
+    return [
+        'name' => ucfirst($faker->word),
+        'ch' => $faker->randomElement([30, 60, 90]),
+    ];
+});

@@ -29,4 +29,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Test');
     }
+
+    public function courses() {
+        return $this->belongsToMany('App\Course')->withPivot('status')->withTimestamps();
+    }
 }

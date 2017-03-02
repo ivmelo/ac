@@ -16,15 +16,10 @@ class UserTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * A basic test example.
+     * Testa que o usuário pode se cadastrar em testes de certificação.
      *
      * @return void
      */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
-
     public function testUserCanRegisterInACertificationTest() {
         // Cria usuário usando o faker.
         $user = factory(User::class)->create();
@@ -39,6 +34,11 @@ class UserTest extends TestCase
         $this->assertEquals($test->users->first()->email, $user->email);
     }
 
+    /**
+     * Usuário não pode se cadastrar em mais de 4 certificações por semestre.
+     *
+     * @return void
+     */
     public function testUserCanNotRegisterInMoreThanFourTestsAtOnce() {
         // Cria usuário usando o faker.
         $user = factory(User::class)->create();
