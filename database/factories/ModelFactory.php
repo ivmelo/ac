@@ -34,3 +34,21 @@ $factory->define(App\Course::class, function (Faker\Generator $faker) {
         'ch' => $faker->randomElement([30, 60, 90]),
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Professor::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'email' => $faker->unique()->safeEmail
+    ];
+});
+
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Request::class, function (Faker\Generator $faker) {
+    return [
+        'name' => ucfirst($faker->word),
+        'ch' => $faker->randomElement([30, 60, 90]),
+        'outline' => $faker->text,
+    ];
+});
