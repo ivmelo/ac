@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Course;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -32,5 +33,9 @@ class User extends Authenticatable
 
     public function courses() {
         return $this->belongsToMany('App\Course')->withPivot('status')->withTimestamps();
+    }
+
+    public function failed_courses() {
+        return $this->belongsToMany('App\Course')->wherePivot('status', Course::FAILED)->withTimestamps();
     }
 }
