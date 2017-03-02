@@ -8,6 +8,9 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use App\Exceptions\TooManyTestsException;
+
+
 class UserTest extends TestCase
 {
     use DatabaseTransactions;
@@ -40,13 +43,17 @@ class UserTest extends TestCase
         // Cria usuário usando o faker.
         $user = factory(User::class)->create();
 
-        // Cria uma prova de certificação.
-        $tests = factory(Test::class)->create();
+        // Cria quatro provas de certificação.
+        $tests = factory(Test::class, 5)->create();
 
-        // Registra usuário em prova de certificação.
-        $test->registerUser($user);
+        // Se inscreve em quatro disciplinas...
+        $tests[0]->registerUser($user);
+        $tests[1]->registerUser($user);
+        $tests[2]->registerUser($user);
+        $tests[3]->registerUser($user);
 
-        // Verifica se o usuário foi registrado.
-        $this->assertEquals($test->users->first()->email, $user->email);
+        // Erro ao cadastrar na quinta disciplina...
+        $this->expectException(TooManyTestsException::class);
+        $tests[4]->registerUser($user);
     }
 }
