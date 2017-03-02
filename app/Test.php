@@ -14,4 +14,9 @@ class Test extends Model
     protected $fillable = [
         'course', 'date',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User');
+    }
 }

@@ -24,4 +24,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [];
+
+    public function tests()
+    {
+        return $this->belongsToMany('App\Test');
+    }
 }
