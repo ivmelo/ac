@@ -22,7 +22,8 @@ class TestTest extends TestCase
      *
      * @return void
      */
-    public function testUserCanRegisterInACertificationTest() {
+    public function testUserCanRegisterInACertificationTest()
+    {
         // Cria usuário usando o faker.
         $user = factory(User::class)->create();
 
@@ -41,7 +42,8 @@ class TestTest extends TestCase
      *
      * @return void
      */
-    public function testUserCanNotRegisterInMoreThanFourTestsAtOnce() {
+    public function testUserCanNotRegisterInMoreThanFourTestsAtOnce()
+    {
         // Cria usuário usando o faker.
         $user = factory(User::class)->create();
 
@@ -64,7 +66,8 @@ class TestTest extends TestCase
      *
      * @return void
      */
-    public function testUserCanNotRegisterInATestForAFailedCourse() {
+    public function testUserCanNotRegisterInATestForAFailedCourse()
+    {
         // Cria usuário usando o faker.
         $user = factory(User::class)->create();
 
@@ -81,6 +84,39 @@ class TestTest extends TestCase
         $course->users()->save($user, ['status' => Course::FAILED]);
 
         // Erro ao cadastrar num curso cujo o aluno foi reprovado.
+        $this->expectException(CantRegisterForTestInAFailedCourse::class);
+        $test->registerUser($user);
+    }
+
+    public function testUserCanNotRegisterForMoreThanHalfTheCourseHours()
+    {
+        // Cria usuário usando o faker.
+        $user = factory(User::class)->create();
+
+        // Adiciona disciplinas cursadas ao aluno até o limite de 1080.
+        while ($user->getTotalTransferAndCertifiedHours() < 1080) {
+            // Cria uma disciplina usando o faker.
+            $course = factory(Course::class)->create();
+
+            // Adiciona um curso ao usuário com status: CERTIFICADO ou TRANSFERIDO.
+            $course->users()->save($user, [
+                'status' => rand(1, 2) == 1 ? Course::CERTIFIED : Course::TRANSFERED
+            ]);
+
+            // Atualiza o modelo de usuário.
+            $user = $user->fresh();
+        }
+
+        // Cria mais uma disciplina usando o faker.
+        $course = factory(Course::class)->create();
+
+        // Cria um teste para a disciplina usando o faker.
+        $test = factory(Test::class)->make();
+
+        // Salva o teste associado a disciplina.
+        $course->tests()->save($test);
+
+        // Erro ao registrar após atingir o limite de 1080 horas.
         $this->expectException(CantRegisterForTestInAFailedCourse::class);
         $test->registerUser($user);
     }

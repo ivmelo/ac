@@ -48,26 +48,14 @@ class User extends Authenticatable
     }
 
     public function getCertifiedHours() {
-        $courses = $this->transfered_courses;
-
-        $total_hours = 0;
-
-        foreach ($courses as $course) {
-            $total_hours += $course->ch;
-        }
-
-        return $total_hours;
+        return $this->certified_courses->sum('ch');
     }
 
     public function getTransferedHours() {
-        $courses = $this->certified_courses;
+        return $this->transfered_courses->sum('ch');
+    }
 
-        $total_hours = 0;
-
-        foreach ($courses as $course) {
-            $total_hours += $course->ch;
-        }
-
-        return $total_hours;
+    public function getTotalTransferAndCertifiedHours() {
+        return $this->getTransferedHours() + $this->getCertifiedHours();
     }
 }
