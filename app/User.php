@@ -38,4 +38,36 @@ class User extends Authenticatable
     public function failed_courses() {
         return $this->belongsToMany('App\Course')->wherePivot('status', Course::FAILED)->withTimestamps();
     }
+
+    public function certified_courses() {
+        return $this->belongsToMany('App\Course')->wherePivot('status', Course::CERTIFIED)->withTimestamps();
+    }
+
+    public function transfered_courses() {
+        return $this->belongsToMany('App\Course')->wherePivot('status', Course::TRANSFERED)->withTimestamps();
+    }
+
+    public function getCertifiedHours() {
+        $courses = $this->transfered_courses;
+
+        $total_hours = 0;
+
+        foreach ($courses as $course) {
+            $total_hours += $course->ch;
+        }
+
+        return $total_hours;
+    }
+
+    public function getTransferedHours() {
+        $courses = $this->certified_courses;
+
+        $total_hours = 0;
+
+        foreach ($courses as $course) {
+            $total_hours += $course->ch;
+        }
+
+        return $total_hours;
+    }
 }
