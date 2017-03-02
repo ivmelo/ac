@@ -21,10 +21,20 @@ class Course extends Model
         'name', 'ch',
     ];
 
+    /**
+     * The certification tests of a course.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function tests() {
         return $this->hasMany('App\Test');
     }
 
+    /**
+     * The users that have taken this course.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function users() {
         return $this->belongsToMany('App\User')->withPivot('status')->withTimestamps();
     }

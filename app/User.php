@@ -26,35 +26,75 @@ class User extends Authenticatable
      */
     protected $hidden = [];
 
+    /**
+     * The certification tests that the user has taken.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function tests()
     {
         return $this->belongsToMany('App\Test');
     }
 
+    /**
+     * The courses that this user has taken.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function courses() {
         return $this->belongsToMany('App\Course')->withPivot('status')->withTimestamps();
     }
 
+    /**
+     * The courses that this user has failed in.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function failed_courses() {
         return $this->belongsToMany('App\Course')->wherePivot('status', Course::FAILED)->withTimestamps();
     }
 
+    /**
+     * The courses that this user has certified.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function certified_courses() {
         return $this->belongsToMany('App\Course')->wherePivot('status', Course::CERTIFIED)->withTimestamps();
     }
 
+    /**
+     * The courses that were transfered by this user.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function transfered_courses() {
         return $this->belongsToMany('App\Course')->wherePivot('status', Course::TRANSFERED)->withTimestamps();
     }
 
+    /**
+     * The amount of course hours that this user has in certified courses.
+     *
+     * @return integer
+     */
     public function getCertifiedHours() {
         return $this->certified_courses->sum('ch');
     }
 
+    /**
+     * The amount of course hours that this user has in transfered courses.
+     *
+     * @return integer
+     */
     public function getTransferedHours() {
         return $this->transfered_courses->sum('ch');
     }
 
+    /**
+     * The total amount of course hours that this user has in certified courses.
+     *
+     * @return integer
+     */
     public function getTotalTransferAndCertifiedHours() {
         return $this->getTransferedHours() + $this->getCertifiedHours();
     }

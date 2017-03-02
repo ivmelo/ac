@@ -19,15 +19,31 @@ class Test extends Model
         'course', 'date',
     ];
 
+    /**
+     * The users that have taken this test.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function users()
     {
         return $this->belongsToMany('App\User');
     }
 
+    /**
+     * The course from which this test belongs.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function course() {
         return $this->belongsTo('App\Course');
     }
 
+    /**
+     * A user to register in the certification tests.
+     *
+     * @param App\User $user
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function registerUser($user) {
         if ($user->tests()->count() >= 4) {
             throw new TooManyTestsException('Usuário já cadastrado em 4 provas.', 1);
