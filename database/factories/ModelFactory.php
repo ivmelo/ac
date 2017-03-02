@@ -22,7 +22,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Test::class, function (Faker\Generator $faker) {
     return [
-        'course_id' => $faker->randomDigit,
+        // 'course_id' => $faker->randomDigit,
+        'date' => $faker->date,
     ];
 });
 

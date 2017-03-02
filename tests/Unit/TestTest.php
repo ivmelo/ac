@@ -28,8 +28,14 @@ class TestTest extends TestCase
         // Cria usuário usando o faker.
         $user = factory(User::class)->create();
 
+        // Cria uma disciplina usando o faker.
+        $course = factory(Course::class)->create();
+
         // Cria uma prova de certificação.
-        $test = factory(Test::class)->create();
+        $test = factory(Test::class)->make();
+
+        // Salva o teste associado a disciplina.
+        $course->tests()->save($test);
 
         // Registra usuário em prova de certificação.
         $test->registerUser($user);
@@ -48,14 +54,21 @@ class TestTest extends TestCase
         // Cria usuário usando o faker.
         $user = factory(User::class)->create();
 
-        // Cria quatro provas de certificação.
-        $tests = factory(Test::class, 5)->create();
+        $tests = [];
+
+        // Cria cinco disciplinas e testes diferentes usando o faker.
+        for ($i = 0; $i < 5; $i++) {
+            $course = factory(Course::class)->create();
+            $test = factory(Test::class)->make();
+            $course->tests()->save($test);
+
+            array_push($tests, $test);
+        }
 
         // Se inscreve em quatro disciplinas...
-        $tests[0]->registerUser($user);
-        $tests[1]->registerUser($user);
-        $tests[2]->registerUser($user);
-        $tests[3]->registerUser($user);
+        for ($i=0; $i < 4; $i++) {
+            $tests[$i]->registerUser($user);
+        }
 
         // Erro ao cadastrar na quinta disciplina...
         $this->expectException(TooManyTestsException::class);
