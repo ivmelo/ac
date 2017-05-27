@@ -4,4 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 
-class CantRegisterForTestInAFailedCourse extends Exception{}
+class CantRegisterForTestInAFailedCourse extends Exception
+{
+}

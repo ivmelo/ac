@@ -34,7 +34,8 @@ class Test extends Model
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function course() {
+    public function course()
+    {
         return $this->belongsTo('App\Course');
     }
 
@@ -44,12 +45,13 @@ class Test extends Model
      * @param App\User $user
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function registerUser($user) {
+    public function registerUser($user)
+    {
         if ($user->tests()->count() >= 4) {
             throw new TooManyTestsException('Usuário já cadastrado em 4 provas.', 1);
-        } else if ($user->failed_courses->contains($this->course)){
+        } elseif ($user->failed_courses->contains($this->course)) {
             throw new CantRegisterForTestInAFailedCourse('Usuário reprovou nesta disciplina.', 1);
-        } else if ($user->getTotalTransferAndCertifiedHours() >= 1.080) {
+        } elseif ($user->getTotalTransferAndCertifiedHours() >= 1.080) {
             throw new ReachedLimitCourseHoursException('Usuário chegou ao limite de carga horária aproveitada.', 1);
         }
 
