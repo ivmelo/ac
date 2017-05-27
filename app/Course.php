@@ -26,7 +26,8 @@ class Course extends Model
      *
      * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function tests() {
+    public function tests()
+    {
         return $this->hasMany('App\Test');
     }
 
@@ -35,7 +36,8 @@ class Course extends Model
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany('App\User')->withPivot('status')->withTimestamps();
     }
 }

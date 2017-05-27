@@ -4,4 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 
-class TooManyTestsException extends Exception{}
+class TooManyTestsException extends Exception
+{
+}
