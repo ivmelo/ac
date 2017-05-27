@@ -12,10 +12,8 @@ use App\Exceptions\CantRegisterForTestInAFailedCourse;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 class TestTest extends TestCase
 {
-
     use DatabaseTransactions;
 
     /**
