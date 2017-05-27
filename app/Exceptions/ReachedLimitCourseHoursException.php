@@ -4,4 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 
-class ReachedLimitCourseHoursException extends Exception{}
+class ReachedLimitCourseHoursException extends Exception
+{
+}
