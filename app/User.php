@@ -41,7 +41,8 @@ class User extends Authenticatable
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function courses() {
+    public function courses()
+    {
         return $this->belongsToMany('App\Course')->withPivot('status')->withTimestamps();
     }
 
@@ -50,7 +51,8 @@ class User extends Authenticatable
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function failed_courses() {
+    public function failed_courses()
+    {
         return $this->belongsToMany('App\Course')->wherePivot('status', Course::FAILED)->withTimestamps();
     }
 
@@ -59,7 +61,8 @@ class User extends Authenticatable
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function certified_courses() {
+    public function certified_courses()
+    {
         return $this->belongsToMany('App\Course')->wherePivot('status', Course::CERTIFIED)->withTimestamps();
     }
 
@@ -68,7 +71,8 @@ class User extends Authenticatable
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function transfered_courses() {
+    public function transfered_courses()
+    {
         return $this->belongsToMany('App\Course')->wherePivot('status', Course::TRANSFERED)->withTimestamps();
     }
 
@@ -77,7 +81,8 @@ class User extends Authenticatable
      *
      * @return integer
      */
-    public function getCertifiedHours() {
+    public function getCertifiedHours()
+    {
         return $this->certified_courses->sum('ch');
     }
 
@@ -86,7 +91,8 @@ class User extends Authenticatable
      *
      * @return integer
      */
-    public function getTransferedHours() {
+    public function getTransferedHours()
+    {
         return $this->transfered_courses->sum('ch');
     }
 
@@ -95,7 +101,8 @@ class User extends Authenticatable
      *
      * @return integer
      */
-    public function getTotalTransferAndCertifiedHours() {
+    public function getTotalTransferAndCertifiedHours()
+    {
         return $this->getTransferedHours() + $this->getCertifiedHours();
     }
 }
